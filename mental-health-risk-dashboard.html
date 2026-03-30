@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mental Health Risk Index Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5"></script>
+<style>
+:root {
+  --bg: #070c19;
+  --surface: #0d1529;
+  --surface2: #131e35;
+  --surface3: #1a2a48;
+  --border: #1e3054;
+  --border2: #243660;
+  --text: #dde6f5;
+  --text-muted: #5e7aa8;
+  --text-dim: #3a5070;
+  --accent: #00d4aa;
+  --accent2: #f59e0b;
+  --accent3: #818cf8;
+  --danger: #f87171;
+  --low: #1d4ed8;
+  --mid: #eab308;
+  --high: #dc2626;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── HEADER ─────────────────────────────────── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent3), transparent);
+  opacity: 0.4;
+}
+.header-left { display: flex; align-items: baseline; gap: 14px; }
+.header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.header-title span { color: var(--accent); }
+.header-tag {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border2);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+  font-weight: 500;
+}
+.btn.primary:hover { background: #00ebb8; border-color: #00ebb8; }
+.btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,212,170,0.08); }
+
+/* ─── MAIN LAYOUT ─────────────────────────────── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── LEFT PANEL ──────────────────────────────── */
+.left-panel {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.left-panel::-webkit-scrollbar { width: 4px; }
+.left-panel::-webkit-scrollbar-track { background: transparent; }
+.left-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.panel-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-section:last-child { border-bottom: none; }
+.section-label {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+/* Color Mode Toggle */
+.mode-group { display: flex; gap: 6px; flex-direction: column; }
+.mode-btn {
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 8px;
+}
+.mode-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,212,170,0.07);
+}
+.mode-btn .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border2); flex-shrink: 0;
+  transition: background 0.15s;
+}
+.mode-btn.active .dot { background: var(--accent); }
+
+/* Legend */
+.legend-gradient {
+  height: 12px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #1d4ed8, #2563eb, #3b82f6, #60a5fa, #fbbf24, #f97316, #ef4444, #dc2626);
+  margin-bottom: 6px;
+}
+.legend-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.cluster-legend { display: flex; flex-direction: column; gap: 6px; }
+.cluster-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text-muted);
+  cursor: pointer; padding: 4px 6px; border-radius: 3px;
+  transition: background 0.1s;
+}
+.cluster-item:hover { background: var(--surface2); }
+.cluster-swatch {
+  width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
+}
+.cluster-item.dimmed { opacity: 0.3; }
+
+/* City list */
+.city-list { display: flex; flex-direction: column; gap: 4px; }
+.city-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px; border-radius: 3px; cursor: pointer;
+  transition: background 0.1s;
+}
+.city-row:hover { background: var(--surface2); }
+.city-check {
+  width: 12px; height: 12px; border-radius: 2px;
+  border: 1px solid var(--border2); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.1s;
+}
+.city-check.checked {
+  background: var(--accent); border-color: var(--accent);
+}
+.city-check.checked::after {
+  content: '✓'; font-size: 9px; color: var(--bg);
+}
+.city-name { font-size: 11px; color: var(--text-muted); flex: 1; }
+.city-index {
+  font-size: 10px; color: var(--text-muted);
+  font-style: italic;
+}
+.city-badge {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* Risk slider */
+.range-row { display: flex; flex-direction: column; gap: 8px; }
+.range-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); }
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%; height: 4px;
+  background: linear-gradient(to right, var(--accent) 0%, var(--accent) var(--pct, 100%), var(--border2) var(--pct, 100%), var(--border2) 100%);
+  border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+  box-shadow: 0 0 6px rgba(0,212,170,0.4);
+}
+
+/* ─── MAP AREA ────────────────────────────────── */
+.map-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+.map-container {
+  flex: 1;
+  position: relative;
+}
+#map svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+.county-path {
+  transition: opacity 0.2s;
+}
+.county-path:hover { opacity: 0.8; cursor: pointer; }
+
+/* Map overlays */
+.map-overlay-tl {
+  position: absolute; top: 14px; left: 14px;
+  background: rgba(7,12,25,0.85);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  backdrop-filter: blur(8px);
+}
+.overlay-stat { margin-bottom: 4px; }
+.overlay-stat:last-child { margin-bottom: 0; }
+.overlay-stat .val {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 700;
+}
+.overlay-stat .lbl {
+  font-size: 9px; color: var(--text-muted);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.overlay-stat .val.green { color: var(--accent); }
+.overlay-stat .val.amber { color: var(--accent2); }
+.overlay-stat .val.red { color: var(--danger); }
+
+/* Map status bar */
+.map-status {
+  height: 34px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.status-item { font-size: 10px; color: var(--text-muted); display: flex; gap: 5px; }
+.status-item span { color: var(--accent); }
+
+/* ─── TOOLTIP ─────────────────────────────────── */
+.tooltip {
+  position: fixed;
+  background: rgba(7,12,25,0.96);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 12px 14px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.1s;
+  max-width: 240px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.tooltip.visible { opacity: 1; }
+.tooltip-city {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px; font-weight: 700;
+  margin-bottom: 8px; color: var(--text);
+}
+.tooltip-row {
+  display: flex; justify-content: space-between; gap: 20px;
+  margin-bottom: 4px; font-size: 11px;
+}
+.tooltip-row .k { color: var(--text-muted); }
+.tooltip-row .v { color: var(--text); font-weight: 500; }
+.tooltip-bar {
+  height: 4px; border-radius: 2px;
+  background: var(--border2);
+  margin-top: 8px; position: relative; overflow: hidden;
+}
+.tooltip-bar-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, #1d4ed8, #eab308, #dc2626);
+  background-size: 400px 4px;
+  transition: width 0.3s;
+}
+
+/* ─── RIGHT PANEL ─────────────────────────────── */
+.right-panel {
+  width: 290px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.right-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.rtab {
+  flex: 1; padding: 10px 0; text-align: center;
+  font-size: 10px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+  border-bottom: 2px solid transparent;
+}
+.rtab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.rtab:hover:not(.active) { color: var(--text); }
+
+.tab-content { display: none; flex: 1; overflow-y: auto; flex-direction: column; }
+.tab-content.active { display: flex; }
+.tab-content::-webkit-scrollbar { width: 4px; }
+.tab-content::-webkit-scrollbar-track { background: transparent; }
+.tab-content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* Stats tab */
+.stat-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat-cell {
+  background: var(--surface);
+  padding: 14px 12px;
+}
+.stat-cell .sv {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px; font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-cell .sk { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-cell .sv.g { color: var(--accent); }
+.stat-cell .sv.a { color: var(--accent2); }
+.stat-cell .sv.r { color: var(--danger); }
+
+.ranking-table { flex: 1; overflow-y: auto; }
+.ranking-header {
+  padding: 10px 14px 6px;
+  font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted);
+  display: flex; gap: 8px; align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.rank-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 54px 42px;
+  gap: 6px;
+  align-items: center;
+  padding: 7px 14px;
+  border-bottom: 1px solid rgba(30,48,84,0.5);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+.rank-row:hover { background: var(--surface2); }
+.rank-num { font-size: 10px; color: var(--text-dim); text-align: center; }
+.rank-city { font-size: 11px; color: var(--text); }
+.rank-city small { display: block; font-size: 9px; color: var(--text-muted); }
+.rank-idx { font-size: 11px; font-weight: 500; text-align: right; }
+.rank-mh { font-size: 10px; color: var(--text-muted); text-align: right; }
+.rank-bar-wrap {
+  grid-column: 1 / -1;
+  height: 2px; background: var(--border);
+  border-radius: 1px; overflow: hidden; margin-top: -2px;
+}
+.rank-bar-fill {
+  height: 100%; border-radius: 1px;
+}
+
+/* District tab */
+.district-search {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.district-search input {
+  width: 100%; background: var(--surface2);
+  border: 1px solid var(--border2); border-radius: 4px;
+  padding: 7px 10px; color: var(--text);
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  outline: none;
+}
+.district-search input:focus { border-color: var(--accent); }
+.district-search input::placeholder { color: var(--text-dim); }
+.district-list { flex: 1; overflow-y: auto; }
+.dist-row {
+  display: grid; grid-template-columns: 1fr 50px 60px;
+  gap: 6px; align-items: center;
+  padding: 7px 14px;
+  border-bottom: 1px solid rgba(30,48,84,0.4);
+  transition: background 0.1s; cursor: pointer;
+}
+.dist-row:hover { background: var(--surface2); }
+.dist-city { font-size: 11px; color: var(--text); }
+.dist-city small { display: block; font-size: 9px; color: var(--text-muted); }
+.dist-idx { font-size: 11px; text-align: right; }
+.dist-cluster {
+  font-size: 10px; text-align: center;
+  padding: 2px 6px; border-radius: 3px;
+  font-weight: 500;
+}
+
+/* Upload tab */
+.upload-area {
+  margin: 14px;
+  border: 2px dashed var(--border2);
+  border-radius: 6px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--accent);
+  background: rgba(0,212,170,0.04);
+}
+.upload-icon {
+  font-size: 28px; margin-bottom: 8px;
+  opacity: 0.5;
+}
+.upload-title { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.upload-sub { font-size: 10px; color: var(--text-dim); }
+#file-input { display: none; }
+
+.csv-spec {
+  margin: 0 14px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+}
+.csv-spec-title { font-size: 10px; color: var(--accent); margin-bottom: 8px; letter-spacing: 0.06em; }
+.csv-col { margin-bottom: 6px; }
+.csv-col .col-name { color: var(--accent2); font-size: 10px; }
+.csv-col .col-desc { font-size: 9px; color: var(--text-muted); }
+.csv-col .required { color: var(--danger); font-size: 9px; }
+.csv-col .optional { color: var(--text-dim); font-size: 9px; }
+
+.upload-result {
+  margin: 0 14px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  display: none;
+}
+.upload-result.success {
+  background: rgba(0,212,170,0.1);
+  border: 1px solid rgba(0,212,170,0.3);
+  color: var(--accent);
+  display: block;
+}
+.upload-result.error {
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.3);
+  color: var(--danger);
+  display: block;
+}
+
+/* Loading state */
+.map-loading {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+  background: var(--bg);
+  z-index: 10;
+}
+.loading-spinner {
+  width: 36px; height: 36px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; }
+
+/* Pulse animation for selected county */
+@keyframes pulse-ring {
+  0% { stroke-width: 1.5; stroke-opacity: 1; }
+  100% { stroke-width: 3; stroke-opacity: 0; }
+}
+.county-selected { stroke: var(--accent) !important; stroke-width: 1.5 !important; }
+
+/* Scrollbar global */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ──────────────────────────────────────── -->
+<header>
+  <div class="header-left">
+    <div class="header-title">MH Risk <span>Index</span> Dashboard</div>
+    <div class="header-tag">14 cities · 239 districts</div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="btn-reset-data">↺ Reset</button>
+    <button class="btn" id="btn-export">⬇ Export CSV</button>
+    <button class="btn primary" onclick="document.getElementById('file-input').click()">⊕ Upload Data</button>
+    <input type="file" id="file-input" accept=".csv">
+  </div>
+</header>
+
+<div class="app-body">
+
+  <!-- ─── LEFT PANEL ──────────────────────────────── -->
+  <div class="left-panel">
+
+    <div class="panel-section">
+      <div class="section-label">Color By</div>
+      <div class="mode-group">
+        <button class="mode-btn active" data-mode="index" onclick="setColorMode('index', this)">
+          <span class="dot"></span> Composite Index
+        </button>
+        <button class="mode-btn" data-mode="cluster" onclick="setColorMode('cluster', this)">
+          <span class="dot"></span> Cluster Assignment
+        </button>
+        <button class="mode-btn" data-mode="poorMH" onclick="setColorMode('poorMH', this)">
+          <span class="dot"></span> Poor Mental Health %
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section" id="index-legend-section">
+      <div class="section-label">Index Scale (0–100)</div>
+      <div class="legend-gradient"></div>
+      <div class="legend-labels">
+        <span>0 Low</span>
+        <span>50</span>
+        <span>100 High</span>
+      </div>
+    </div>
+
+    <div class="panel-section" id="cluster-legend-section" style="display:none">
+      <div class="section-label">Clusters</div>
+      <div class="cluster-legend" id="cluster-legend">
+        <div class="cluster-item" style="color:var(--text-dim);font-size:10px;padding:4px;">
+          No clusters loaded yet.<br>Upload a CSV with a <code style="color:var(--accent2)">cluster</code> column.
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">Risk Filter (Index Range)</div>
+      <div class="range-row">
+        <div class="range-labels">
+          <span id="range-min-lbl">0</span>
+          <span id="range-max-lbl">100</span>
+        </div>
+        <input type="range" id="range-min" min="0" max="100" value="0"
+          oninput="updateRange('min', this.value)">
+        <input type="range" id="range-max" min="0" max="100" value="100"
+          oninput="updateRange('max', this.value)">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="section-label">Cities</div>
+      <div class="city-list" id="city-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ─── MAP ─────────────────────────────────────── -->
+  <div class="map-area">
+    <div class="map-container" id="map">
+      <div class="map-loading" id="map-loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading county geometry...</div>
+      </div>
+    </div>
+
+    <!-- Top-left overlay stats -->
+    <div class="map-overlay-tl" id="overlay-stats">
+      <div class="overlay-stat">
+        <div class="val green" id="ov-mean">—</div>
+        <div class="lbl">Mean Index</div>
+      </div>
+      <div class="overlay-stat" style="margin-top:10px">
+        <div class="val red" id="ov-high">—</div>
+        <div class="lbl">Highest County</div>
+      </div>
+      <div class="overlay-stat" style="margin-top:10px">
+        <div class="val" style="color:var(--low);font-family:'Syne',sans-serif;font-size:22px;font-weight:700" id="ov-low">—</div>
+        <div class="lbl">Lowest County</div>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="map-status">
+      <div class="status-item">Counties shown: <span id="st-counties">0</span></div>
+      <div class="status-item">Districts: <span id="st-districts">0</span></div>
+      <div class="status-item">Clusters: <span id="st-clusters">—</span></div>
+      <div class="status-item">Model R²: <span>0.903</span></div>
+      <div class="status-item" style="margin-left:auto">Hover county to inspect · Click to pin</div>
+    </div>
+  </div>
+
+  <!-- ─── RIGHT PANEL ──────────────────────────────── -->
+  <div class="right-panel">
+    <div class="right-tabs">
+      <div class="rtab active" onclick="switchTab('stats', this)">Stats</div>
+      <div class="rtab" onclick="switchTab('rankings', this)">Rankings</div>
+      <div class="rtab" onclick="switchTab('districts', this)">Districts</div>
+      <div class="rtab" onclick="switchTab('upload', this)">Upload</div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div class="tab-content active" id="tab-stats">
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="sv g" id="s-n-cities">14</div>
+          <div class="sk">Cities</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sv a" id="s-n-dist">239</div>
+          <div class="sk">Districts</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sv r" id="s-max-idx">100.0</div>
+          <div class="sk">Max Index</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sv" style="color:var(--low);font-family:'Syne',sans-serif;font-size:24px;font-weight:700" id="s-min-idx">0.0</div>
+          <div class="sk">Min Index</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sv" style="color:var(--text);font-family:'Syne',sans-serif;font-size:24px;font-weight:700" id="s-mean-idx">56.2</div>
+          <div class="sk">Mean Index</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sv" style="color:var(--accent3);font-family:'Syne',sans-serif;font-size:24px;font-weight:700" id="s-n-clusters">—</div>
+          <div class="sk">Clusters</div>
+        </div>
+      </div>
+      <div style="padding:14px;border-bottom:1px solid var(--border)">
+        <div class="section-label" style="margin-bottom:8px">Model Performance</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between;font-size:11px">
+            <span style="color:var(--text-muted)">Ridge + City FE R²</span>
+            <span style="color:var(--accent)">0.9028</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px">
+            <span style="color:var(--text-muted)">LOCO-CV Ridge MAE</span>
+            <span style="color:var(--accent2)">1.304 %pts</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px">
+            <span style="color:var(--text-muted)">PCA Index r (target)</span>
+            <span style="color:var(--accent3)">0.6877</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px">
+            <span style="color:var(--text-muted)">Top predictor</span>
+            <span style="color:var(--text)">poverty_rate</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px">
+            <span style="color:var(--text-muted)">r = +0.71</span>
+            <span style="color:var(--danger)">↑ risk</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:14px">
+        <div class="section-label" style="margin-bottom:8px">Top Predictors (Ridge β)</div>
+        <div id="predictor-bars"></div>
+      </div>
+    </div>
+
+    <!-- RANKINGS TAB -->
+    <div class="tab-content" id="tab-rankings">
+      <div class="ranking-header">
+        <span>#</span><span>City / District</span><span style="margin-left:auto">Index</span>
+      </div>
+      <div class="ranking-table" id="ranking-list"></div>
+    </div>
+
+    <!-- DISTRICTS TAB -->
+    <div class="tab-content" id="tab-districts">
+      <div class="district-search">
+        <input type="text" id="district-search-input" placeholder="Search city or district..."
+          oninput="filterDistricts(this.value)">
+      </div>
+      <div class="district-list" id="district-list"></div>
+    </div>
+
+    <!-- UPLOAD TAB -->
+    <div class="tab-content" id="tab-upload" style="flex-direction:column;overflow-y:auto">
+      <div class="upload-area" id="upload-area">
+        <div class="upload-icon">⬆</div>
+        <div class="upload-title">Drop CSV file here</div>
+        <div class="upload-sub">or click to browse</div>
+      </div>
+      <div class="upload-result" id="upload-result"></div>
+      <div class="csv-spec">
+        <div class="csv-spec-title">⬢ Expected CSV Columns</div>
+        <div class="csv-col">
+          <span class="col-name">fips</span>
+          <span class="required"> required*</span>
+          <div class="col-desc">5-digit county FIPS code (e.g., 48453)</div>
+        </div>
+        <div class="csv-col">
+          <span class="col-name">composite_index</span>
+          <span class="required"> required*</span>
+          <div class="col-desc">0–100 risk score per district</div>
+        </div>
+        <div class="csv-col">
+          <span class="col-name">cluster</span>
+          <span class="optional"> optional</span>
+          <div class="col-desc">Cluster label (1–N or string)</div>
+        </div>
+        <div class="csv-col">
+          <span class="col-name">city</span>
+          <span class="optional"> optional</span>
+          <div class="col-desc">City name for display</div>
+        </div>
+        <div class="csv-col">
+          <span class="col-name">poor_mh_pct</span>
+          <span class="optional"> optional</span>
+          <div class="col-desc">Poor mental health % (CDC PLACES)</div>
+        </div>
+        <div class="csv-col">
+          <span class="col-name">district_id</span>
+          <span class="optional"> optional</span>
+          <div class="col-desc">District identifier (tract, row, etc.)</div>
+        </div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:9px;color:var(--text-dim)">
+          * If no fips, uses city→county lookup for the 14 study cities.
+          Multiple rows per county are averaged.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── TOOLTIP ──────────────────────────────────────── -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-city" id="tt-city">—</div>
+  <div class="tooltip-row"><span class="k">Composite Index</span><span class="v" id="tt-idx">—</span></div>
+  <div class="tooltip-row"><span class="k">Poor MH %</span><span class="v" id="tt-mh">—</span></div>
+  <div class="tooltip-row"><span class="k">Cluster</span><span class="v" id="tt-cluster">—</span></div>
+  <div class="tooltip-row"><span class="k">Districts</span><span class="v" id="tt-ndist">—</span></div>
+  <div class="tooltip-row"><span class="k">County FIPS</span><span class="v" id="tt-fips">—</span></div>
+  <div class="tooltip-bar"><div class="tooltip-bar-fill" id="tt-bar" style="width:0%"></div></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   DATA LAYER
+═══════════════════════════════════════════════ */
+
+// City → County FIPS lookup
+const CITY_FIPS = {
+  "Austin":        "48453",
+  "Charlotte":     "37119",
+  "Columbus":      "39049",
+  "Denver":        "08031",
+  "Indianapolis":  "18097",
+  "Jacksonville":  "12031",
+  "Louisville":    "21111",
+  "Miami":         "12086",
+  "Nashville":     "47037",
+  "Orlando":       "12095",
+  "Philadelphia":  "42101",
+  "San Antonio":   "48029",
+  "San Francisco": "06075",
+  "Tampa":         "12057",
+};
+
+// Pre-loaded district-level data (239 rows summarized as city-level means)
+// composite_index values = aggregated from Section I output
+const DEFAULT_DATA = [
+  { fips:"48453", city:"Austin",        state:"TX", composite_index:52.3, poor_mh_pct:16.84, n_districts:11,  cluster:null },
+  { fips:"37119", city:"Charlotte",     state:"NC", composite_index:44.1, poor_mh_pct:16.36, n_districts:8,   cluster:null },
+  { fips:"39049", city:"Columbus",      state:"OH", composite_index:32.4, poor_mh_pct:17.59, n_districts:53,  cluster:null },
+  { fips:"08031", city:"Denver",        state:"CO", composite_index:41.2, poor_mh_pct:15.49, n_districts:12,  cluster:null },
+  { fips:"18097", city:"Indianapolis",  state:"IN", composite_index:68.1, poor_mh_pct:18.25, n_districts:25,  cluster:null },
+  { fips:"12031", city:"Jacksonville",  state:"FL", composite_index:71.5, poor_mh_pct:18.72, n_districts:15,  cluster:null },
+  { fips:"21111", city:"Louisville",    state:"KY", composite_index:60.8, poor_mh_pct:16.63, n_districts:27,  cluster:null },
+  { fips:"12086", city:"Miami",         state:"FL", composite_index:78.9, poor_mh_pct:15.14, n_districts:6,   cluster:null },
+  { fips:"47037", city:"Nashville",     state:"TN", composite_index:55.3, poor_mh_pct:19.53, n_districts:36,  cluster:null },
+  { fips:"12095", city:"Orlando",       state:"FL", composite_index:53.1, poor_mh_pct:17.35, n_districts:7,   cluster:null },
+  { fips:"42101", city:"Philadelphia",  state:"PA", composite_index:72.1, poor_mh_pct:19.08, n_districts:11,  cluster:null },
+  { fips:"48029", city:"San Antonio",   state:"TX", composite_index:81.4, poor_mh_pct:17.26, n_districts:11,  cluster:null },
+  { fips:"06075", city:"San Francisco", state:"CA", composite_index:27.8, poor_mh_pct:14.52, n_districts:12,  cluster:null },
+  { fips:"12057", city:"Tampa",         state:"FL", composite_index:63.4, poor_mh_pct:17.36, n_districts:5,   cluster:null },
+];
+
+// Full district list for Districts tab (sample — user can replace via upload)
+// rows correspond to the top+bottom district entries from Section I
+const DEFAULT_DISTRICTS = [
+  { id:218, city:"San Antonio",  composite_index:100.00, poor_mh_pct:19.07, cluster:null },
+  { id:155, city:"Miami",        composite_index:99.28,  poor_mh_pct:15.33, cluster:null },
+  { id:151, city:"Miami",        composite_index:98.39,  poor_mh_pct:15.73, cluster:null },
+  { id:152, city:"Miami",        composite_index:96.90,  poor_mh_pct:18.50, cluster:null },
+  { id:204, city:"Philadelphia", composite_index:91.39,  poor_mh_pct:22.04, cluster:null },
+  { id:43,  city:"Columbus",     composite_index:89.46,  poor_mh_pct:21.74, cluster:null },
+  { id:109, city:"Jacksonville", composite_index:87.07,  poor_mh_pct:21.65, cluster:null },
+  { id:172, city:"Nashville",    composite_index:85.29,  poor_mh_pct:21.68, cluster:null },
+  { id:156, city:"Miami",        composite_index:83.71,  poor_mh_pct:15.00, cluster:null },
+  { id:133, city:"Louisville",   composite_index:82.53,  poor_mh_pct:20.91, cluster:null },
+  { id:132, city:"Louisville",   composite_index:81.88,  poor_mh_pct:20.13, cluster:null },
+  { id:88,  city:"Indianapolis", composite_index:81.79,  poor_mh_pct:20.67, cluster:null },
+  { id:235, city:"Tampa",        composite_index:81.41,  poor_mh_pct:20.41, cluster:null },
+  { id:84,  city:"Indianapolis", composite_index:81.07,  poor_mh_pct:20.17, cluster:null },
+  { id:216, city:"San Antonio",  composite_index:79.75,  poor_mh_pct:17.94, cluster:null },
+  { id:61,  city:"Columbus",     composite_index:14.94,  poor_mh_pct:14.14, cluster:null },
+  { id:180, city:"Nashville",    composite_index:14.03,  poor_mh_pct:16.11, cluster:null },
+  { id:179, city:"Nashville",    composite_index:11.07,  poor_mh_pct:14.16, cluster:null },
+  { id:175, city:"Nashville",    composite_index:9.80,   poor_mh_pct:15.70, cluster:null },
+  { id:63,  city:"Columbus",     composite_index:8.46,   poor_mh_pct:13.31, cluster:null },
+  { id:22,  city:"Columbus",     composite_index:8.00,   poor_mh_pct:15.37, cluster:null },
+  { id:144, city:"Louisville",   composite_index:3.12,   poor_mh_pct:11.22, cluster:null },
+  { id:59,  city:"Columbus",     composite_index:2.36,   poor_mh_pct:12.40, cluster:null },
+  { id:68,  city:"Columbus",     composite_index:0.11,   poor_mh_pct:13.67, cluster:null },
+  { id:64,  city:"Columbus",     composite_index:0.00,   poor_mh_pct:12.63, cluster:null },
+];
+
+const RIDGE_COEFFS = [
+  { feature: "poverty_rate",           coef:  0.884, dir:  1 },
+  { feature: "uninsured_rate",         coef:  0.420, dir:  1 },
+  { feature: "housing_cost_rate",      coef:  0.065, dir:  1 },
+  { feature: "log_MH_Provider_Ratio",  coef:  0.113, dir:  1 },
+  { feature: "single_female_hh_rate",  coef: -0.318, dir: -1 },
+  { feature: "low_edu_rate",           coef: -0.790, dir: -1 },
+  { feature: "bach_edu_rate",          coef: -0.305, dir: -1 },
+  { feature: "grad_edu_rate",          coef: -0.887, dir: -1 },
+  { feature: "married_hh_rate",        coef: -0.850, dir: -1 },
+];
+
+const CLUSTER_PALETTE = [
+  "#ef4444","#f97316","#eab308","#22c55e","#3b82f6",
+  "#8b5cf6","#ec4899","#14b8a6","#f59e0b","#06b6d4",
+];
+
+/* ═══════════════════════════════════════════════
+   APP STATE
+═══════════════════════════════════════════════ */
+
+let appData     = DEFAULT_DATA.map(d => ({...d}));
+let districts   = DEFAULT_DISTRICTS.map(d => ({...d}));
+let colorMode   = "index";
+let rangeMin    = 0;
+let rangeMax    = 100;
+let visibleCities = new Set(DEFAULT_DATA.map(d => d.city));
+let clusterFilter = new Set();
+let clusterKeys   = [];
+let dataMap     = new Map(); // fips → aggregated row
+let countyPaths = null;
+let svgRoot     = null;
+let selectedFips = null;
+let usTopoData   = null;
+
+function buildDataMap() {
+  dataMap.clear();
+  // Group by fips, compute mean composite index
+  const byFips = {};
+  appData.forEach(d => {
+    if (!byFips[d.fips]) byFips[d.fips] = [];
+    byFips[d.fips].push(d);
+  });
+  Object.entries(byFips).forEach(([fips, rows]) => {
+    const mean_idx = rows.reduce((s,r) => s + r.composite_index, 0) / rows.length;
+    const mean_mh  = rows.reduce((s,r) => s + (r.poor_mh_pct||0), 0) / rows.length;
+    const clusters = [...new Set(rows.map(r => r.cluster).filter(c => c !== null && c !== undefined && c !== ''))];
+    dataMap.set(fips, {
+      ...rows[0],
+      composite_index: mean_idx,
+      poor_mh_pct: mean_mh,
+      n_districts: rows.reduce((s,r) => s + (r.n_districts||1), 0),
+      clusters,
+      allRows: rows,
+    });
+  });
+  // Collect unique clusters
+  clusterKeys = [];
+  const seen = new Set();
+  appData.forEach(d => {
+    const c = d.cluster;
+    if (c !== null && c !== undefined && c !== '' && !seen.has(String(c))) {
+      seen.add(String(c));
+      clusterKeys.push(String(c));
+    }
+  });
+  clusterKeys.sort((a,b) => {
+    const na = +a, nb = +b;
+    if (!isNaN(na) && !isNaN(nb)) return na - nb;
+    return a.localeCompare(b);
+  });
+  if (clusterFilter.size === 0) clusterFilter = new Set(clusterKeys);
+}
+
+/* ═══════════════════════════════════════════════
+   COLOR UTILITIES
+═══════════════════════════════════════════════ */
+
+function indexColor(v) {
+  const t = Math.max(0, Math.min(1, v / 100));
+  if (t < 0.5) {
+    const tt = t * 2;
+    const r = Math.round(29  + tt * (234 - 29));
+    const g = Math.round(78  + tt * (179 - 78));
+    const b = Math.round(216 + tt * (8   - 216));
+    return `rgb(${r},${g},${b})`;
+  } else {
+    const tt = (t - 0.5) * 2;
+    const r = Math.round(234 + tt * (220 - 234));
+    const g = Math.round(179 + tt * (38  - 179));
+    const b = Math.round(8   + tt * (38  - 8));
+    return `rgb(${r},${g},${b})`;
+  }
+}
+
+function clusterColor(c) {
+  if (c === null || c === undefined || c === '') return "#334155";
+  const idx = clusterKeys.indexOf(String(c));
+  return CLUSTER_PALETTE[idx % CLUSTER_PALETTE.length] || "#64748b";
+}
+
+function getCountyColor(fips) {
+  const row = dataMap.get(String(fips).padStart(5,'0'));
+  if (!row) return null;
+  if (!visibleCities.has(row.city)) return null;
+  if (row.composite_index < rangeMin || row.composite_index > rangeMax) return null;
+  if (colorMode === "index")   return indexColor(row.composite_index);
+  if (colorMode === "poorMH")  return indexColor(row.poor_mh_pct * 4); // scale 0–25% → 0–100
+  if (colorMode === "cluster") {
+    const c = row.allRows[0]?.cluster;
+    if (!clusterFilter.has(String(c))) return null;
+    return clusterColor(c);
+  }
+  return null;
+}
+
+/* ═══════════════════════════════════════════════
+   D3 MAP
+═══════════════════════════════════════════════ */
+
+async function initMap() {
+  const container = document.getElementById("map");
+  const W = container.clientWidth;
+  const H = container.clientHeight;
+
+  const svg = d3.select("#map")
+    .append("svg")
+    .attr("viewBox", `0 0 975 610`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .style("width", "100%")
+    .style("height", "100%")
+    .style("position", "absolute")
+    .style("inset", "0");
+
+  svgRoot = svg;
+
+  // Grid lines as subtle atmosphere
+  const defs = svg.append("defs");
+  const pattern = defs.append("pattern")
+    .attr("id", "grid")
+    .attr("width", 24).attr("height", 24)
+    .attr("patternUnits", "userSpaceOnUse");
+  pattern.append("path")
+    .attr("d", "M 24 0 L 0 0 0 24")
+    .attr("fill", "none")
+    .attr("stroke", "rgba(30,48,84,0.3)")
+    .attr("stroke-width", "0.5");
+  svg.append("rect")
+    .attr("width", "100%").attr("height", "100%")
+    .attr("fill", "url(#grid)");
+
+  let us;
+  try {
+    us = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/counties-albers-10m.json");
+  } catch(e) {
+    document.getElementById("map-loading").innerHTML =
+      `<div style="color:var(--danger);font-size:12px;padding:20px;text-align:center">
+        ⚠ Could not load county geometry.<br>
+        <span style="color:var(--text-muted);font-size:10px">Check your internet connection.</span>
+      </div>`;
+    return;
+  }
+
+  usTopoData = us;
+  document.getElementById("map-loading").style.display = "none";
+
+  const path = d3.geoPath();
+  const counties = topojson.feature(us, us.objects.counties);
+  const states   = topojson.mesh(us, us.objects.states, (a,b) => a !== b);
+  const nation   = topojson.feature(us, us.objects.nation);
+
+  // Nation fill
+  svg.append("path")
+    .datum(nation)
+    .attr("fill", "#0d1529")
+    .attr("d", path);
+
+  // Counties
+  const countyG = svg.append("g").attr("class", "counties-g");
+  countyPaths = countyG.selectAll("path")
+    .data(counties.features)
+    .join("path")
+    .attr("class", "county-path")
+    .attr("d", path)
+    .attr("fill", d => getCountyColor(String(d.id).padStart(5,'0')) || "#0d1826")
+    .attr("stroke", d => {
+      const c = getCountyColor(String(d.id).padStart(5,'0'));
+      return c ? "rgba(0,0,0,0.3)" : "#111f33";
+    })
+    .attr("stroke-width", d => getCountyColor(String(d.id).padStart(5,'0')) ? 0.4 : 0.2)
+    .on("mousemove", onCountyHover)
+    .on("mouseleave", onCountyLeave)
+    .on("click", onCountyClick);
+
+  // State borders
+  svg.append("path")
+    .datum(states)
+    .attr("fill", "none")
+    .attr("stroke", "#1e3054")
+    .attr("stroke-width", 0.7)
+    .attr("d", path);
+
+  // Annotate active counties with city labels
+  const labelData = [];
+  counties.features.forEach(f => {
+    const fips = String(f.id).padStart(5,'0');
+    const row = dataMap.get(fips);
+    if (row) {
+      const centroid = path.centroid(f);
+      if (!isNaN(centroid[0])) {
+        labelData.push({ ...row, cx: centroid[0], cy: centroid[1], fips });
+      }
+    }
+  });
+
+  const labelG = svg.append("g").attr("class", "labels-g");
+  labelG.selectAll("circle")
+    .data(labelData)
+    .join("circle")
+    .attr("cx", d => d.cx).attr("cy", d => d.cy)
+    .attr("r", 5)
+    .attr("fill", d => indexColor(d.composite_index))
+    .attr("stroke", "#070c19")
+    .attr("stroke-width", 1.5)
+    .style("pointer-events", "none");
+
+  labelG.selectAll("text")
+    .data(labelData)
+    .join("text")
+    .attr("x", d => d.cx).attr("y", d => d.cy - 9)
+    .attr("text-anchor", "middle")
+    .attr("font-family", "IBM Plex Mono, monospace")
+    .attr("font-size", "7.5")
+    .attr("font-weight", "500")
+    .attr("fill", "#dde6f5")
+    .attr("paint-order", "stroke")
+    .attr("stroke", "#070c19")
+    .attr("stroke-width", "2.5")
+    .style("pointer-events", "none")
+    .text(d => d.city);
+
+  updateStats();
+  renderCityList();
+  renderRankings();
+  renderDistrictList();
+  renderPredictorBars();
+  renderClusterLegend();
+}
+
+function refreshMap() {
+  if (!countyPaths) return;
+  countyPaths
+    .attr("fill", d => getCountyColor(String(d.id).padStart(5,'0')) || "#0d1826")
+    .attr("stroke", d => {
+      const c = getCountyColor(String(d.id).padStart(5,'0'));
+      return c ? "rgba(0,0,0,0.3)" : "#111f33";
+    })
+    .attr("stroke-width", d => getCountyColor(String(d.id).padStart(5,'0')) ? 0.4 : 0.2);
+
+  // Update labels
+  if (svgRoot) {
+    const path = d3.geoPath();
+    svgRoot.selectAll(".labels-g circle")
+      .attr("fill", d => {
+        if (!visibleCities.has(d.city)) return "transparent";
+        if (colorMode === "cluster") return clusterColor(d.allRows?.[0]?.cluster);
+        return indexColor(d.composite_index);
+      })
+      .attr("opacity", d => visibleCities.has(d.city) ? 1 : 0);
+    svgRoot.selectAll(".labels-g text")
+      .attr("opacity", d => visibleCities.has(d.city) ? 1 : 0);
+  }
+  updateStats();
+}
+
+/* ═══════════════════════════════════════════════
+   TOOLTIP & INTERACTIONS
+═══════════════════════════════════════════════ */
+
+const tooltip = document.getElementById("tooltip");
+
+function onCountyHover(event, d) {
+  const fips = String(d.id).padStart(5,'0');
+  const row  = dataMap.get(fips);
+  if (!row) return;
+
+  document.getElementById("tt-city").textContent    = `${row.city}, ${row.state}`;
+  document.getElementById("tt-idx").textContent     = row.composite_index.toFixed(1);
+  document.getElementById("tt-mh").textContent      = row.poor_mh_pct ? row.poor_mh_pct.toFixed(2) + "%" : "—";
+  const cl = row.allRows?.[0]?.cluster;
+  document.getElementById("tt-cluster").textContent = (cl !== null && cl !== undefined && cl !== '') ? cl : "—";
+  document.getElementById("tt-ndist").textContent   = row.n_districts || "—";
+  document.getElementById("tt-fips").textContent    = fips;
+  document.getElementById("tt-bar").style.width     = row.composite_index + "%";
+  document.getElementById("tt-bar").style.background =
+    `linear-gradient(90deg, #1d4ed8 0%, #eab308 50%, #dc2626 100%)`;
+  document.getElementById("tt-bar").style.backgroundSize = "200px 4px";
+
+  tooltip.classList.add("visible");
+  moveTooltip(event);
+}
+
+function moveTooltip(event) {
+  const tw = tooltip.offsetWidth  || 240;
+  const th = tooltip.offsetHeight || 140;
+  let x = event.clientX + 14;
+  let y = event.clientY - 10;
+  if (x + tw > window.innerWidth  - 10) x = event.clientX - tw - 14;
+  if (y + th > window.innerHeight - 10) y = event.clientY - th - 10;
+  tooltip.style.left = x + "px";
+  tooltip.style.top  = y + "px";
+  document.addEventListener("mousemove", e => moveTooltip(e), {once:true});
+}
+
+function onCountyLeave() {
+  if (!selectedFips) tooltip.classList.remove("visible");
+}
+
+function onCountyClick(event, d) {
+  const fips = String(d.id).padStart(5,'0');
+  const row  = dataMap.get(fips);
+  if (!row) return;
+
+  selectedFips = (selectedFips === fips) ? null : fips;
+  if (!selectedFips) { tooltip.classList.remove("visible"); }
+
+  countyPaths
+    .attr("stroke", f => {
+      const ff = String(f.id).padStart(5,'0');
+      if (ff === selectedFips) return "#00d4aa";
+      return getCountyColor(ff) ? "rgba(0,0,0,0.3)" : "#111f33";
+    })
+    .attr("stroke-width", f => {
+      const ff = String(f.id).padStart(5,'0');
+      return ff === selectedFips ? 1.5 : (getCountyColor(ff) ? 0.4 : 0.2);
+    });
+}
+
+/* ═══════════════════════════════════════════════
+   UI PANELS
+═══════════════════════════════════════════════ */
+
+function renderCityList() {
+  const el = document.getElementById("city-list");
+  const sorted = [...dataMap.values()].sort((a,b) => b.composite_index - a.composite_index);
+  el.innerHTML = sorted.map(row => `
+    <div class="city-row" onclick="toggleCity('${row.city}')">
+      <div class="city-check ${visibleCities.has(row.city) ? 'checked' : ''}"></div>
+      <span class="city-name">${row.city}</span>
+      <span class="city-index">${row.composite_index.toFixed(0)}</span>
+      <div class="city-badge" style="background:${indexColor(row.composite_index)}"></div>
+    </div>
+  `).join('');
+  document.getElementById("st-counties").textContent  = dataMap.size;
+  document.getElementById("st-districts").textContent = [...dataMap.values()].reduce((s,r) => s+(r.n_districts||1),0);
+}
+
+function renderRankings() {
+  const el = document.getElementById("ranking-list");
+  const rows = [...dataMap.values()].sort((a,b) => b.composite_index - a.composite_index);
+  el.innerHTML = rows.map((row, i) => {
+    const color = indexColor(row.composite_index);
+    return `
+    <div class="rank-row" onclick="zoomToCity('${row.fips}')">
+      <div class="rank-num">${i+1}</div>
+      <div class="rank-city">${row.city}<small>${row.state}</small></div>
+      <div class="rank-idx" style="color:${color}">${row.composite_index.toFixed(1)}</div>
+      <div class="rank-mh">${row.poor_mh_pct ? row.poor_mh_pct.toFixed(1)+'%' : '—'}</div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar-fill" style="width:${row.composite_index}%;background:${color}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDistrictList(filter='') {
+  const el = document.getElementById("district-list");
+  const filtered = districts
+    .filter(d => !filter || d.city.toLowerCase().includes(filter.toLowerCase()) || String(d.id).includes(filter))
+    .sort((a,b) => b.composite_index - a.composite_index);
+  el.innerHTML = filtered.map(d => {
+    const color = indexColor(d.composite_index);
+    const hasCluster = d.cluster !== null && d.cluster !== undefined && d.cluster !== '';
+    const clColor = hasCluster ? clusterColor(d.cluster) : 'var(--border2)';
+    return `
+    <div class="dist-row">
+      <div class="dist-city">${d.city}<small>District ${d.id}</small></div>
+      <div class="dist-idx" style="color:${color}">${d.composite_index.toFixed(1)}</div>
+      <div class="dist-cluster" style="background:${clColor}22;color:${clColor};border:1px solid ${clColor}44">
+        ${hasCluster ? d.cluster : '—'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterDistricts(val) { renderDistrictList(val); }
+
+function renderPredictorBars() {
+  const el = document.getElementById("predictor-bars");
+  const max = Math.max(...RIDGE_COEFFS.map(d => Math.abs(d.coef)));
+  el.innerHTML = RIDGE_COEFFS.map(d => {
+    const pct = (Math.abs(d.coef) / max) * 100;
+    const color = d.dir > 0 ? "var(--danger)" : "var(--accent3)";
+    const arrow = d.dir > 0 ? "↑" : "↓";
+    return `
+    <div style="margin-bottom:7px">
+      <div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:3px;color:var(--text-muted)">
+        <span style="color:${color}">${arrow}</span>
+        <span style="flex:1;margin:0 6px">${d.feature}</span>
+        <span>${d.coef.toFixed(3)}</span>
+      </div>
+      <div style="height:3px;background:var(--border2);border-radius:2px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:2px"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderClusterLegend() {
+  const el = document.getElementById("cluster-legend");
+  if (clusterKeys.length === 0) {
+    el.innerHTML = `<div class="cluster-item" style="color:var(--text-dim);font-size:10px;padding:4px;">
+      No clusters loaded yet.<br>Upload CSV with a <code style="color:var(--accent2)">cluster</code> column.
+    </div>`;
+    document.getElementById("st-clusters").textContent = "—";
+    document.getElementById("s-n-clusters").textContent = "—";
+    return;
+  }
+  document.getElementById("st-clusters").textContent = clusterKeys.length;
+  document.getElementById("s-n-clusters").textContent = clusterKeys.length;
+  el.innerHTML = clusterKeys.map(c => {
+    const color = clusterColor(c);
+    const dimmed = !clusterFilter.has(c) ? 'dimmed' : '';
+    return `
+    <div class="cluster-item ${dimmed}" onclick="toggleCluster('${c}')">
+      <div class="cluster-swatch" style="background:${color}"></div>
+      <span>Cluster ${c}</span>
+    </div>`;
+  }).join('');
+}
+
+function updateStats() {
+  const vals = [...dataMap.values()];
+  if (!vals.length) return;
+  const idxs = vals.map(d => d.composite_index);
+  const mn = (idxs.reduce((a,b)=>a+b,0)/idxs.length).toFixed(1);
+  const mx = Math.max(...idxs).toFixed(1);
+  const mi = Math.min(...idxs).toFixed(1);
+
+  document.getElementById("ov-mean").textContent = mn;
+  document.getElementById("ov-high").textContent = mx;
+  document.getElementById("ov-low").textContent  = mi;
+  document.getElementById("s-mean-idx").textContent = mn;
+  document.getElementById("s-max-idx").textContent  = mx;
+  document.getElementById("s-min-idx").textContent  = mi;
+  document.getElementById("s-n-cities").textContent = new Set(vals.map(d=>d.city)).size;
+  document.getElementById("s-n-dist").textContent   = vals.reduce((s,r)=>s+(r.n_districts||1),0);
+}
+
+/* ═══════════════════════════════════════════════
+   CONTROLS
+═══════════════════════════════════════════════ */
+
+function setColorMode(mode, el) {
+  colorMode = mode;
+  document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("index-legend-section").style.display = mode !== "cluster" ? "" : "none";
+  document.getElementById("cluster-legend-section").style.display = mode === "cluster" ? "" : "none";
+  refreshMap();
+}
+
+function toggleCity(city) {
+  if (visibleCities.has(city)) {
+    if (visibleCities.size === 1) return; // keep at least 1
+    visibleCities.delete(city);
+  } else {
+    visibleCities.add(city);
+  }
+  renderCityList();
+  refreshMap();
+}
+
+function toggleCluster(c) {
+  if (clusterFilter.has(c)) {
+    if (clusterFilter.size === 1) return;
+    clusterFilter.delete(c);
+  } else {
+    clusterFilter.add(c);
+  }
+  renderClusterLegend();
+  refreshMap();
+}
+
+function updateRange(which, val) {
+  val = +val;
+  if (which === "min") {
+    rangeMin = Math.min(val, rangeMax - 1);
+    document.getElementById("range-min-lbl").textContent = rangeMin;
+  } else {
+    rangeMax = Math.max(val, rangeMin + 1);
+    document.getElementById("range-max-lbl").textContent = rangeMax;
+  }
+  refreshMap();
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll(".rtab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("tab-" + name).classList.add("active");
+}
+
+function zoomToCity(fips) {
+  // Highlight the county
+  if (!countyPaths) return;
+  selectedFips = fips;
+  countyPaths
+    .attr("stroke", f => String(f.id).padStart(5,'0') === fips ? "#00d4aa" : (getCountyColor(String(f.id).padStart(5,'0')) ? "rgba(0,0,0,0.3)" : "#111f33"))
+    .attr("stroke-width", f => String(f.id).padStart(5,'0') === fips ? 1.5 : 0.4);
+}
+
+/* ═══════════════════════════════════════════════
+   CSV UPLOAD
+═══════════════════════════════════════════════ */
+
+function handleCSV(file) {
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: (results) => {
+      const rows = results.data;
+      const res  = document.getElementById("upload-result");
+
+      if (!rows.length) {
+        res.className = "upload-result error";
+        res.textContent = "⚠ Empty CSV file.";
+        return;
+      }
+
+      const cols = Object.keys(rows[0]).map(c => c.trim().toLowerCase());
+      const hasIdx  = cols.includes("composite_index");
+      const hasFips = cols.includes("fips");
+      const hasCity = cols.includes("city");
+
+      if (!hasIdx) {
+        res.className = "upload-result error";
+        res.textContent = "⚠ Missing required column: composite_index";
+        return;
+      }
+      if (!hasFips && !hasCity) {
+        res.className = "upload-result error";
+        res.textContent = "⚠ Need at least one of: fips, city";
+        return;
+      }
+
+      // Build new data entries
+      const newData = rows.map(r => {
+        const city_raw = r.city || r.City || "";
+        const fips_raw = r.fips || r.FIPS || r.county_fips || "";
+        const fips = fips_raw ? String(fips_raw).padStart(5,'0') : (CITY_FIPS[city_raw] || null);
+        return {
+          fips: fips,
+          city: city_raw || fips,
+          state: r.state || r.State || "",
+          composite_index: parseFloat(r.composite_index) || 0,
+          poor_mh_pct: parseFloat(r.poor_mh_pct || r.poor_mental_health_pct) || null,
+          cluster: r.cluster || r.Cluster || null,
+          n_districts: parseInt(r.n_districts) || 1,
+          district_id: r.district_id || r.id || null,
+        };
+      }).filter(d => d.fips);
+
+      if (!newData.length) {
+        res.className = "upload-result error";
+        res.textContent = "⚠ No valid rows found. Check fips / city columns.";
+        return;
+      }
+
+      appData = newData;
+      // Update district list
+      districts = newData.map((d,i) => ({
+        id: d.district_id || i,
+        city: d.city,
+        composite_index: d.composite_index,
+        poor_mh_pct: d.poor_mh_pct,
+        cluster: d.cluster,
+      }));
+
+      buildDataMap();
+      visibleCities = new Set([...dataMap.values()].map(d => d.city));
+      clusterFilter = new Set(clusterKeys);
+
+      renderCityList();
+      renderRankings();
+      renderDistrictList();
+      renderClusterLegend();
+      updateStats();
+      refreshMap();
+
+      res.className = "upload-result success";
+      res.textContent = `✓ Loaded ${newData.length} districts across ${dataMap.size} counties.`;
+    },
+    error: (err) => {
+      const res = document.getElementById("upload-result");
+      res.className = "upload-result error";
+      res.textContent = "⚠ Parse error: " + err.message;
+    }
+  });
+}
+
+// File input events
+document.getElementById("file-input").addEventListener("change", e => {
+  if (e.target.files[0]) handleCSV(e.target.files[0]);
+});
+
+const uploadArea = document.getElementById("upload-area");
+uploadArea.addEventListener("click", () => document.getElementById("file-input").click());
+uploadArea.addEventListener("dragover", e => { e.preventDefault(); uploadArea.classList.add("dragover"); });
+uploadArea.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
+uploadArea.addEventListener("drop", e => {
+  e.preventDefault();
+  uploadArea.classList.remove("dragover");
+  if (e.dataTransfer.files[0]) handleCSV(e.dataTransfer.files[0]);
+});
+
+// Reset
+document.getElementById("btn-reset-data").addEventListener("click", () => {
+  appData = DEFAULT_DATA.map(d => ({...d}));
+  districts = DEFAULT_DISTRICTS.map(d => ({...d}));
+  buildDataMap();
+  visibleCities = new Set(DEFAULT_DATA.map(d => d.city));
+  clusterFilter = new Set();
+  clusterKeys   = [];
+  document.getElementById("upload-result").className = "upload-result";
+  renderCityList();
+  renderRankings();
+  renderDistrictList();
+  renderClusterLegend();
+  updateStats();
+  refreshMap();
+});
+
+// Export
+document.getElementById("btn-export").addEventListener("click", () => {
+  const rows = [...dataMap.values()];
+  const csv = ["fips,city,state,composite_index,poor_mh_pct,cluster,n_districts"]
+    .concat(rows.map(r =>
+      `${r.fips},${r.city},${r.state},${r.composite_index.toFixed(2)},${r.poor_mh_pct?.toFixed(2)||''},${r.allRows[0]?.cluster||''},${r.n_districts||''}`
+    )).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'mh_risk_index_export.csv';
+  a.click();
+});
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+
+buildDataMap();
+initMap();
+</script>
+</body>
+</html>
