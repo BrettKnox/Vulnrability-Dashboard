@@ -11,7 +11,7 @@
 
 ---
 
-## 📋 Overview
+##  Overview
 
 This project examines how **district-level socioeconomic, environmental, and healthcare access conditions** predict poor adult mental health across city council districts in 14 major U.S. cities. The target variable is the percentage of adults reporting poor mental health — defined as poor mental health for **≥ 14 days** in the past month (CDC PLACES, 2023).
 
