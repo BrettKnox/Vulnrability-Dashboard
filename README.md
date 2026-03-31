@@ -1,4 +1,4 @@
-# 🧠 Predicting Poor Mental Health at the City Council District Level
+# Predicting Poor Mental Health at the City Council District Level
 
 > **CAP 4922 — Data Science Capstone Project**
 > Team K² · Brett Knox & Connor Kurrack
@@ -26,7 +26,7 @@ Both branches share a common cleaned dataset and converge into a district-level 
 
 ---
 
-## 🗺️ Data
+##  Data
 
 ### Coverage
 
@@ -79,7 +79,7 @@ Both branches share a common cleaned dataset and converge into a district-level 
 
 ---
 
-## ⚙️ Methodology
+##  Methodology
 
 ### 1. Data Cleaning & Preprocessing
 
@@ -177,7 +177,7 @@ K-means applied to Z-score normalized features with **Silhouette Score** used to
 
 ---
 
-## 📊 Key Findings
+##  Key Findings
 
 - **Rate normalization was essential.** Raw counts had near-zero correlations with the target; normalized rates revealed correlations up to r = 0.71.
 - **Poverty rate is the single strongest predictor** (r = +0.71), consistent with economic insecurity as a documented driver of psychological distress.
@@ -198,7 +198,7 @@ K-means applied to Z-score normalized features with **Silhouette Score** used to
 
 ---
 
-## 🖥️ Interactive Dashboard
+##  Interactive Dashboard
 
 An HTML/D3.js dashboard is included for visualizing the composite index and cluster assignments across counties.
 
@@ -224,7 +224,7 @@ fips, composite_index, cluster, city, poor_mh_pct, district_id
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 ├── data/
@@ -252,7 +252,7 @@ fips, composite_index, cluster, city, poor_mh_pct, district_id
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Requirements
 
@@ -275,7 +275,7 @@ open dashboard/mental-health-risk-dashboard.html
 
 ---
 
-## 🔬 Research Hypotheses
+##  Research Hypotheses
 
 | # | Hypothesis |
 |---|-----------|
@@ -287,7 +287,7 @@ open dashboard/mental-health-risk-dashboard.html
 
 ---
 
-## 📚 Data Sources
+##  Data Sources
 
 | Source | Variables | Years |
 |--------|-----------|-------|
@@ -298,7 +298,7 @@ open dashboard/mental-health-risk-dashboard.html
 
 ---
 
-## ⚠️ Limitations
+##  Limitations
 
 - **Ecological fallacy:** All findings are at the district level. Community-level correlations do not imply individual-level relationships.
 - **Cross-sectional design:** No causal inference can be drawn from this observational data.
@@ -308,7 +308,7 @@ open dashboard/mental-health-risk-dashboard.html
 
 ---
 
-## 👥 Team
+##  Team
 
 | Name | Role |
 |------|------|
