@@ -171,11 +171,131 @@ Top contributing features to the index:
 | `low_edu_rate` | 0.260 | ↑ risk |
 | `Lead Paint EJI` | 0.240 | ↑ risk |
 
-### 7. Clustering (K-Means)
+## 7. Clustering (K-Means)
 
-K-means applied to Z-score normalized features with **Silhouette Score** used to select optimal k. Goal: identify recurring district profiles defined by shared structural conditions — not population size — for community-level interpretation.
+![Method](https://img.shields.io/badge/Method-K--Means-blue)
+![Type](https://img.shields.io/badge/Learning-Unsupervised-orange)
+![Primary_Model](https://img.shields.io/badge/Primary_Model-k%3D4-success)
+![Metric](https://img.shields.io/badge/Metric-Silhouette_Score-lightgrey)
+
+K-Means clustering was applied to Z-score normalized features to identify recurring district profiles defined by shared structural conditions. The objective was to segment districts based on underlying socioeconomic and environmental characteristics rather than population size.
 
 ---
+
+### 📊 Model Selection
+
+- Evaluated **k ∈ [2, 8]** using:
+  - Elbow Method (inertia)
+  - Silhouette Score (primary metric)
+
+| k | Silhouette Score | Interpretation |
+|--|------------------|----------------|
+| 2 | **~0.31** | Strong separation (binary split) |
+| 4 | ~0.20 | Moderate separation, higher interpretability |
+
+- **k = 2** produced the strongest statistical separation  
+- **k = 4** was selected as the primary model for its ability to capture **meaningful subgroups**
+
+> ⚖️ **Trade-off:** Slightly lower separation, but significantly improved interpretability and real-world applicability
+
+---
+
+### 🧠 Cluster Structure (k = 4)
+
+![Clusters](https://img.shields.io/badge/Clusters-4-blueviolet)
+
+The four-cluster solution reveals a **continuous socioeconomic gradient**:
+
+| Cluster | Profile | Mental Health Risk |
+|--------|--------|--------------------|
+| 🔴 0 | Extreme disadvantage | Highest (~20%) |
+| 🟠 3 | Moderate-high risk | Elevated |
+| 🔵 2 | Transitional | Moderate |
+| 🟢 1 | Advantaged | Lowest (~16%) |
+
+> Districts are not cleanly separated — they exist along a **structured continuum of risk**
+
+---
+
+### 🔍 Key Drivers of Clustering
+
+![Drivers](https://img.shields.io/badge/Drivers-Socioeconomic-critical)
+
+Clusters are primarily defined by:
+
+- **Household Structure**
+  - single-parent household share  
+  - single-female household share  
+
+- **Socioeconomic Status**
+  - poverty rate  
+  - educational attainment  
+
+- **Access & Stability**
+  - insurance coverage  
+  - housing cost burden  
+
+- **Environmental Exposure**
+  - environmental risk index  
+
+---
+
+### 🔥 Key Insight
+
+> Mental health disparities are driven primarily by **structural socioeconomic conditions**, not healthcare availability.
+
+- Healthcare variables showed **minimal separation across clusters**
+- Socioeconomic variables consistently dominated clustering behavior
+
+---
+
+### ⚠️ DBSCAN Comparison
+
+![Alt Model](https://img.shields.io/badge/Comparison-DBSCAN-lightgrey)
+
+DBSCAN was tested to identify density-based clusters and outliers.
+
+**Results:**
+- 1 dominant cluster + noise  
+- High sensitivity to ε  
+- No stable cluster structure  
+
+**Conclusion:**
+> Data does not contain strong density-based groupings — instead follows a **continuous gradient**
+
+---
+
+### 📍 Localized Insight: Jacksonville Case Study
+
+![Case Study](https://img.shields.io/badge/Case_Study-Jacksonville_FL-blue)
+
+Cluster assignments reveal **significant intra-city variation**:
+
+- Districts span **all 4 clusters**
+- Mental health rates range from **~16% to >21%**
+- High-risk and low-risk districts exist within the same city
+
+**Example:**
+- 🔴 Districts 9 & 10 → highest risk  
+- 🟢 Districts 2, 3, 6 → lower risk  
+
+> 📌 **Key takeaway:** City-level averages obscure important local disparities
+
+---
+
+### ✅ Summary
+
+![Status](https://img.shields.io/badge/Status-Validated-success)
+
+- Clustering reveals a **clear socioeconomic gradient**
+- **k = 4** provides actionable segmentation into risk tiers
+- Results are:
+  - interpretable  
+  - consistent across features  
+  - aligned with real-world conditions  
+
+---
+
 
 ##  Key Findings
 
