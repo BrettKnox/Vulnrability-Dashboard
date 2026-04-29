@@ -1,0 +1,240 @@
+feature label,cluster,Poor Mental Health Among Adults (2023),cluster_label
+"Council District 21, Nashville, TN",0,24.3146,Extreme Risk
+"Council District 17, Nashville, TN",0,23.1416,Extreme Risk
+"Council District 6, Louisville, KY",0,22.4983,Extreme Risk
+"Council District 1, Newark, OH",0,22.4126,Extreme Risk
+"Council District 7, Philadelphia, PA",0,22.0369,Extreme Risk
+"Council District 2, Whitehall, OH",0,21.8074,Extreme Risk
+"Council District 1, Whitehall, OH",0,21.7364,Extreme Risk
+"Council District 2, Nashville, TN",0,21.6817,Extreme Risk
+"Council District 10, Jacksonville, FL",0,21.6494,Extreme Risk
+"Council District 3, Philadelphia, PA",0,21.583,Extreme Risk
+"Council District 9, Jacksonville, FL",0,21.5643,Extreme Risk
+"Council District 2, Newark, OH",0,21.3685,Extreme Risk
+"Council District 19, Indianapolis, IN",0,21.1957,Extreme Risk
+"Council District 5, Louisville, KY",0,20.9132,Extreme Risk
+"Council District 9, Indianapolis, IN",0,20.669,Extreme Risk
+"Council District 5, Philadelphia, PA",0,20.6327,Extreme Risk
+"Council District 5, Tampa, FL",0,20.4149,Extreme Risk
+"Council District 15, Indianapolis, IN",0,20.3082,Extreme Risk
+"Council District 8, Indianapolis, IN",0,20.1745,Extreme Risk
+"Council District 18, Indianapolis, IN",0,20.1507,Extreme Risk
+"Council District 4, Louisville, KY",0,20.1314,Extreme Risk
+"Council District 15, Louisville, KY",0,19.8532,Extreme Risk
+"Council District 4, Reynoldsburg, OH",0,19.8021,Extreme Risk
+"Council District 5, Orlando, FL",0,19.8012,Extreme Risk
+"Council District 5, Lancaster, OH",0,19.6966,Extreme Risk
+"Council District 1, Louisville, KY",0,19.6697,Extreme Risk
+"Council District 12, Indianapolis, IN",0,19.6479,Extreme Risk
+"Council District 5, Indianapolis, IN",0,19.6208,Extreme Risk
+"Council District 3, Louisville, KY",0,19.5207,Extreme Risk
+"Council District 8, Philadelphia, PA",0,19.2663,Extreme Risk
+"Council District 13, Indianapolis, IN",0,19.234,Extreme Risk
+"Council District 9, Philadelphia, PA",0,19.2304,Extreme Risk
+"Council District 5, San Antonio, TX",0,19.0683,Extreme Risk
+"Philadelphia, PA",0,18.9,Extreme Risk
+"Council District 5, Miami, FL",0,18.5032,Extreme Risk
+"Council District 4, Philadelphia, PA",0,18.3001,Extreme Risk
+"Council District 1, Miami, FL",0,15.7308,Extreme Risk
+"Council District 3, Miami, FL",0,15.3282,Extreme Risk
+"Miami, FL",0,15.0,Extreme Risk
+"Council District 4, Miami, FL",0,13.2431,Extreme Risk
+"Council District 4, Newark, OH",1,19.3339,Low Risk
+"Council District 3, Marysville, OH",1,19.0983,Low Risk
+"Council District 1, Grove, OH",1,18.297,Low Risk
+"Council District 4, Marysville, OH",1,17.9258,Low Risk
+"Columbus, OH Area",1,17.8581,Low Risk
+"Council District 2, Grove, OH",1,17.8467,Low Risk
+"Council District 2, Lancaster, OH",1,17.4177,Low Risk
+"Council District 2, Heath, OH",1,17.2999,Low Risk
+"Council District 2, Marysville, OH",1,17.2293,Low Risk
+"Council District 2, Jacksonville, FL",1,17.2052,Low Risk
+"Council District 6, Newark, OH",1,17.1343,Low Risk
+"Council District 1, Gahanna, OH",1,17.1308,Low Risk
+"Council District 2, Reynoldsburg, OH",1,17.1235,Low Risk
+"Council District 1, Marysville, OH",1,17.1,Low Risk
+"Council District 22, Indianapolis, IN",1,17.0524,Low Risk
+"Council District 4, Delaware, OH",1,17.0417,Low Risk
+"Council District 1, Circleville, OH",1,17.0353,Low Risk
+"Council District 3, Jacksonville, FL",1,17.0087,Low Risk
+"Council District 2, Pataskala, OH",1,17.0,Low Risk
+"Council District 24, Indianapolis, IN",1,16.9958,Low Risk
+"Council District 4, Grove, OH",1,16.8692,Low Risk
+"Council District 1, Heath, OH",1,16.8025,Low Risk
+"Council District 3, Heath, OH",1,16.5434,Low Risk
+"Council District 1, Delaware, OH",1,16.5133,Low Risk
+"Council District 10, Philadelphia, PA",1,16.4547,Low Risk
+"Council District 1, Pataskala, OH",1,16.442,Low Risk
+"Council District 6, Jacksonville, FL",1,16.3546,Low Risk
+"Council District 35, Nashville, TN",1,16.114,Low Risk
+"Council District 3, Gahanna, OH",1,16.1067,Low Risk
+"Council District 23, Louisville, KY",1,16.0778,Low Risk
+"Council District 3, Reynoldsburg, OH",1,16.0449,Low Risk
+"Council District 3, Pataskala, OH",1,15.88,Low Risk
+"Council District 25, Indianapolis, IN",1,15.7706,Low Risk
+"Council District 5, Newark, OH",1,15.5409,Low Risk
+"Council District 3, Grove, OH",1,15.3722,Low Risk
+"Council District 22, Louisville, KY",1,15.2278,Low Risk
+"Council District 2, Delaware, OH",1,15.1624,Low Risk
+"Council District 3, Delaware, OH",1,14.9684,Low Risk
+"Council District 11, Louisville, KY",1,14.5192,Low Risk
+"Council District 20, Louisville, KY",1,14.0679,Low Risk
+"Council District 17, Louisville, KY",1,13.7824,Low Risk
+"Council District 4, Gahanna, OH",1,13.6727,Low Risk
+"Council District 1, Dublin, OH",1,13.3086,Low Risk
+"Council District 19, Louisville, KY",1,13.0228,Low Risk
+"Council District 7, Charlotte, NC",1,12.9921,Low Risk
+"Council District 4, Dublin, OH",1,12.6274,Low Risk
+"Council District 18, Louisville, KY",1,12.5506,Low Risk
+"Council District 3, Dublin, OH",1,12.3984,Low Risk
+"Council District 16, Louisville, KY",1,11.2157,Low Risk
+"Council District 18, Nashville, TN",2,21.3927,Moderate
+"Council District 9, Austin, TX",2,19.7536,Moderate
+"Council District 20, Nashville, TN",2,19.6675,Moderate
+"Council District 6, Nashville, TN",2,19.5717,Moderate
+"Council District 19, Nashville, TN",2,18.9224,Moderate
+"Council District 7, Nashville, TN",2,18.8915,Moderate
+"Council District 15, Nashville, TN",2,18.6118,Moderate
+"Council District 31, Nashville, TN",2,18.5535,Moderate
+"Council District 26, Nashville, TN",2,17.4607,Moderate
+"Council District 4, Lancaster, OH",2,17.0829,Moderate
+"Austin, TX",2,16.9,Moderate
+"Council District 22, Nashville, TN",2,16.8222,Moderate
+"Council District 4, Orlando, FL",2,16.7985,Moderate
+"Council District 3, Orlando, FL",2,16.7587,Moderate
+"Council District 13, Jacksonville, FL",2,16.6749,Moderate
+"Council District 1, Philadelphia, PA",2,16.5755,Moderate
+"Council District 4, Nashville, TN",2,16.4341,Moderate
+"Council District 5, San Francisco, CA",2,16.4236,Moderate
+"Council District 11, Jacksonville, FL",2,16.413,Moderate
+"Council District 24, Nashville, TN",2,16.2037,Moderate
+"Council District 9, Denver, CO",2,16.1989,Moderate
+"Council District 5, Austin, TX",2,16.1234,Moderate
+"Council District 7, Indianapolis, IN",2,16.0723,Moderate
+"Council District 7, Austin, TX",2,15.9657,Moderate
+"Council District 23, Nashville, TN",2,15.7995,Moderate
+"Council District 25, Nashville, TN",2,15.7033,Moderate
+"Denver, CO",2,15.5,Moderate
+"Council District 1, Orlando, FL",2,15.3968,Moderate
+"Council District 2, Gahanna, OH",2,15.3809,Moderate
+"Council District 10, Denver, CO",2,15.3323,Moderate
+"Council District 3, San Francisco, CA",2,15.2037,Moderate
+"Council District 3, Indianapolis, IN",2,15.1885,Moderate
+"Council District 9, San Francisco, CA",2,15.151,Moderate
+"Council District 7, Denver, CO",2,15.0794,Moderate
+"Council District 2, Indianapolis, IN",2,15.0733,Moderate
+"Council District 6, San Francisco, CA",2,15.0442,Moderate
+"Council District 26, Louisville, KY",2,15.0132,Moderate
+"Council District 4, Denver, CO",2,14.9871,Moderate
+"Council District 4, Tampa, FL",2,14.9862,Moderate
+"Council District 1, Denver, CO",2,14.8048,Moderate
+"Council District 6, Denver, CO",2,14.7204,Moderate
+"Council District 4, Indianapolis, IN",2,14.6458,Moderate
+"Council District 6, Austin, TX",2,14.5732,Moderate
+"San Francisco, CA",2,14.5,Moderate
+"Council District 9, San Antonio, TX",2,14.4708,Moderate
+"Council District 34, Nashville, TN",2,14.1566,Moderate
+"Council District 2, Dublin, OH",2,14.1428,Moderate
+"Council District 7, Louisville, KY",2,14.1108,Moderate
+"Council District 8, Austin, TX",2,14.1056,Moderate
+"Council District 2, San Francisco, CA",2,14.054,Moderate
+"Council District 6, Charlotte, NC",2,14.0413,Moderate
+"Council District 1, San Francisco, CA",2,13.8616,Moderate
+"Council District 8, Louisville, KY",2,13.7779,Moderate
+"Council District 10, Austin, TX",2,13.7408,Moderate
+"Council District 9, Louisville, KY",2,13.7186,Moderate
+"Council District 8, San Francisco, CA",2,13.5163,Moderate
+"Council District 5, Denver, CO",2,13.4926,Moderate
+"Council District 7, San Francisco, CA",2,13.3103,Moderate
+"Council District 2, Miami, FL",2,13.0403,Moderate
+"Council District 4, San Francisco, CA",2,13.0211,Moderate
+"Council District 30, Nashville, TN",3,22.3511,Moderate-High Risk
+"Council District 28, Nashville, TN",3,22.2744,Moderate-High Risk
+"Council District 32, Nashville, TN",3,22.1301,Moderate-High Risk
+"Council District 9, Nashville, TN",3,21.7941,Moderate-High Risk
+"Council District 8, Nashville, TN",3,21.6417,Moderate-High Risk
+"Council District 4, Circleville, OH",3,21.5347,Moderate-High Risk
+"Council District 5, Nashville, TN",3,21.3448,Moderate-High Risk
+"Council District 13, Nashville, TN",3,21.1753,Moderate-High Risk
+"Council District 27, Nashville, TN",3,21.158,Moderate-High Risk
+"Council District 3, Nashville, TN",3,21.1504,Moderate-High Risk
+"Council District 4, Whitehall, OH",3,20.9258,Moderate-High Risk
+"Council District 16, Nashville, TN",3,20.8047,Moderate-High Risk
+"Council District 3, Whitehall, OH",3,20.6992,Moderate-High Risk
+"Council District 1, Jacksonville, FL",3,20.4307,Moderate-High Risk
+"Council District 6, Lancaster, OH",3,20.1605,Moderate-High Risk
+"Council District 17, Indianapolis, IN",3,20.1389,Moderate-High Risk
+"Council District 7, Newark, OH",3,20.1231,Moderate-High Risk
+"Council District 10, Nashville, TN",3,20.1197,Moderate-High Risk
+"Council District 33, Nashville, TN",3,19.9571,Moderate-High Risk
+"Council District 7, Jacksonville, FL",3,19.9242,Moderate-High Risk
+"Council District 21, Indianapolis, IN",3,19.8791,Moderate-High Risk
+"Council District 29, Nashville, TN",3,19.7907,Moderate-High Risk
+"Council District 8, Jacksonville, FL",3,19.7792,Moderate-High Risk
+"Council District 14, Jacksonville, FL",3,19.6287,Moderate-High Risk
+"Nashville, TN",3,19.6,Moderate-High Risk
+"Council District 13, Louisville, KY",3,19.3758,Moderate-High Risk
+"Council District 6, Philadelphia, PA",3,19.362,Moderate-High Risk
+"Council District 12, Jacksonville, FL",3,19.3179,Moderate-High Risk
+"Council District 11, Indianapolis, IN",3,19.2958,Moderate-High Risk
+"Council District 2, San Antonio, TX",3,19.2748,Moderate-High Risk
+"Council District 23, Indianapolis, IN",3,19.2238,Moderate-High Risk
+"Council District 4, Austin, TX",3,19.2139,Moderate-High Risk
+"Council District 21, Louisville, KY",3,19.2132,Moderate-High Risk
+"Council District 3, Circleville, OH",3,19.1198,Moderate-High Risk
+"Council District 14, Nashville, TN",3,19.0471,Moderate-High Risk
+"Council District 3, Austin, TX",3,18.9685,Moderate-High Risk
+"Council District 1, Nashville, TN",3,18.8736,Moderate-High Risk
+"Jacksonville, FL",3,18.8,Moderate-High Risk
+"Council District 3, Lancaster, OH",3,18.7911,Moderate-High Risk
+"Council District 1, Reynoldsburg, OH",3,18.7091,Moderate-High Risk
+"Council District 2, Circleville, OH",3,18.6898,Moderate-High Risk
+"Council District 4, Jacksonville, FL",3,18.6139,Moderate-High Risk
+"Council District 6, Orlando, FL",3,18.499,Moderate-High Risk
+"Council District 12, Nashville, TN",3,18.4971,Moderate-High Risk
+"Council District 4, San Antonio, TX",3,18.4611,Moderate-High Risk
+"Council District 1, Lancaster, OH",3,18.4535,Moderate-High Risk
+"Council District 16, Indianapolis, IN",3,18.2614,Moderate-High Risk
+"Council District 14, Louisville, KY",3,18.2267,Moderate-High Risk
+"Council District 2, Austin, TX",3,18.205,Moderate-High Risk
+"Indianapolis, IN",3,18.2,Moderate-High Risk
+"Council District 14, Indianapolis, IN",3,18.1672,Moderate-High Risk
+"Council District 7, Tampa, FL",3,18.1325,Moderate-High Risk
+"Council District 20, Indianapolis, IN",3,18.0393,Moderate-High Risk
+"Council District 3, Denver, CO",3,18.0252,Moderate-High Risk
+"Council District 5, Charlotte, NC",3,17.9792,Moderate-High Risk
+"Council District 3, San Antonio, TX",3,17.936,Moderate-High Risk
+"Council District 4, Pataskala, OH",3,17.8824,Moderate-High Risk
+"Council District 2, Louisville, KY",3,17.811,Moderate-High Risk
+"Council District 3, Newark, OH",3,17.8098,Moderate-High Risk
+"Council District 11, Nashville, TN",3,17.8063,Moderate-High Risk
+"Council District 25, Louisville, KY",3,17.784,Moderate-High Risk
+"Council District 1, Austin, TX",3,17.7182,Moderate-High Risk
+"Council District 24, Louisville, KY",3,17.5135,Moderate-High Risk
+"Council District 2, Philadelphia, PA",3,17.4928,Moderate-High Risk
+"Council District 1, Charlotte, NC",3,17.4809,Moderate-High Risk
+"Council District 5, Jacksonville, FL",3,17.4783,Moderate-High Risk
+"Council District 12, Louisville, KY",3,17.4342,Moderate-High Risk
+"Tampa, FL",3,17.4,Moderate-High Risk
+"Council District 2, Charlotte, NC",3,17.3978,Moderate-High Risk
+"Council District 3, Charlotte, NC",3,17.3563,Moderate-High Risk
+"Orlando, FL",3,17.3,Moderate-High Risk
+"Council District 4, Charlotte, NC",3,17.2468,Moderate-High Risk
+"San Antonio, TX",3,17.2,Moderate-High Risk
+"Council District 1, San Antonio, TX",3,17.0729,Moderate-High Risk
+"Council District 6, Indianapolis, IN",3,17.0629,Moderate-High Risk
+"Council District 6, San Antonio, TX",3,17.0535,Moderate-High Risk
+"Council District 2, Orlando, FL",3,16.926,Moderate-High Risk
+"Council District 8, San Antonio, TX",3,16.8105,Moderate-High Risk
+"Council District 11, Denver, CO",3,16.699,Moderate-High Risk
+"Charlotte, NC",3,16.4,Moderate-High Risk
+"Council District 7, San Antonio, TX",3,16.29,Moderate-High Risk
+"Louisville, KY",3,16.2,Moderate-High Risk
+"Council District 10, San Antonio, TX",3,16.1849,Moderate-High Risk
+"Council District 10, San Francisco, CA",3,16.176,Moderate-High Risk
+"Council District 1, Indianapolis, IN",3,16.1418,Moderate-High Risk
+"Council District 6, Tampa, FL",3,15.8782,Moderate-High Risk
+"Council District 10, Louisville, KY",3,15.7894,Moderate-High Risk
+"Council District 8, Denver, CO",3,15.6727,Moderate-High Risk
+"Council District 2, Denver, CO",3,15.3813,Moderate-High Risk
+"Council District 11, San Francisco, CA",3,13.9752,Moderate-High Risk
