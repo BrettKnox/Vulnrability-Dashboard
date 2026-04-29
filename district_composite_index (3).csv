@@ -1,0 +1,240 @@
+district_id,label,city,composite_index,poor_mh_pct
+0,"Council District 5, Austin, TX",Austin,31.42,16.1234
+1,"Council District 6, Austin, TX",Austin,17.3,14.5732
+2,"Council District 7, Austin, TX",Austin,28.4,15.9657
+3,"Council District 10, Austin, TX",Austin,15.33,13.7408
+4,"Council District 1, Austin, TX",Austin,55.55,17.7182
+5,"Council District 2, Austin, TX",Austin,58.07,18.205
+6,"Council District 3, Austin, TX",Austin,59.43,18.9685
+7,"Council District 4, Austin, TX",Austin,68.86,19.2139
+8,"Council District 8, Austin, TX",Austin,13.44,14.1056
+9,"Council District 9, Austin, TX",Austin,34.49,19.7536
+10,"Austin, TX",Austin,39.29,16.9
+11,"Council District 6, Charlotte, NC",Charlotte,26.55,14.0413
+12,"Council District 2, Charlotte, NC",Charlotte,58.76,17.3978
+13,"Council District 3, Charlotte, NC",Charlotte,58.75,17.3563
+14,"Council District 4, Charlotte, NC",Charlotte,43.06,17.2468
+15,"Council District 5, Charlotte, NC",Charlotte,69.33,17.9792
+16,"Council District 7, Charlotte, NC",Charlotte,14.74,12.9921
+17,"Council District 1, Charlotte, NC",Charlotte,54.95,17.4809
+18,"Charlotte, NC",Charlotte,48.05,16.4
+19,"Council District 3, Delaware, OH",Columbus,29.89,14.9684
+20,"Council District 5, Newark, OH",Columbus,36.09,15.5409
+21,"Council District 6, Newark, OH",Columbus,48.85,17.1343
+22,"Council District 3, Grove, OH",Columbus,15.47,15.3722
+23,"Council District 3, Heath, OH",Columbus,38.81,16.5434
+24,"Council District 2, Heath, OH",Columbus,44.07,17.2999
+25,"Council District 4, Whitehall, OH",Columbus,68.78,20.9258
+26,"Council District 1, Newark, OH",Columbus,84.71,22.4126
+27,"Council District 4, Newark, OH",Columbus,55.3,19.3339
+28,"Council District 3, Newark, OH",Columbus,52.23,17.8098
+29,"Council District 7, Newark, OH",Columbus,70.13,20.1231
+30,"Council District 2, Newark, OH",Columbus,86.6,21.3685
+31,"Council District 6, Lancaster, OH",Columbus,66.05,20.1605
+32,"Council District 2, Lancaster, OH",Columbus,42.47,17.4177
+33,"Council District 1, Lancaster, OH",Columbus,60.28,18.4535
+34,"Council District 5, Lancaster, OH",Columbus,77.42,19.6966
+35,"Council District 3, Lancaster, OH",Columbus,51.14,18.7911
+36,"Council District 4, Lancaster, OH",Columbus,45.7,17.0829
+37,"Council District 2, Delaware, OH",Columbus,35.25,15.1624
+38,"Council District 1, Delaware, OH",Columbus,34.61,16.5133
+39,"Council District 4, Delaware, OH",Columbus,32.17,17.0417
+40,"Council District 4, Grove, OH",Columbus,39.55,16.8692
+41,"Council District 1, Grove, OH",Columbus,37.71,18.297
+42,"Council District 2, Grove, OH",Columbus,37.99,17.8467
+43,"Council District 1, Whitehall, OH",Columbus,86.12,21.7364
+44,"Council District 3, Whitehall, OH",Columbus,71.91,20.6992
+45,"Council District 2, Whitehall, OH",Columbus,76.39,21.8074
+46,"Council District 3, Marysville, OH",Columbus,41.62,19.0983
+47,"Council District 4, Marysville, OH",Columbus,44.5,17.9258
+48,"Council District 2, Marysville, OH",Columbus,40.26,17.2293
+49,"Council District 1, Marysville, OH",Columbus,24.21,17.1
+50,"Council District 4, Pataskala, OH",Columbus,51.92,17.8824
+51,"Council District 3, Pataskala, OH",Columbus,30.78,15.88
+52,"Council District 2, Pataskala, OH",Columbus,30.27,17.0
+53,"Council District 1, Pataskala, OH",Columbus,35.24,16.442
+54,"Council District 1, Heath, OH",Columbus,53.07,16.8025
+55,"Council District 1, Circleville, OH",Columbus,29.27,17.0353
+56,"Council District 4, Circleville, OH",Columbus,73.76,21.5347
+57,"Council District 2, Circleville, OH",Columbus,56.28,18.6898
+58,"Council District 3, Circleville, OH",Columbus,66.82,19.1198
+59,"Council District 3, Dublin, OH",Columbus,2.64,12.3984
+60,"Council District 2, Reynoldsburg, OH",Columbus,55.1,17.1235
+61,"Council District 2, Dublin, OH",Columbus,14.84,14.1428
+62,"Council District 4, Reynoldsburg, OH",Columbus,76.71,19.8021
+63,"Council District 1, Dublin, OH",Columbus,11.24,13.3086
+64,"Council District 4, Dublin, OH",Columbus,0.0,12.6274
+65,"Council District 1, Gahanna, OH",Columbus,36.94,17.1308
+66,"Council District 2, Gahanna, OH",Columbus,31.95,15.3809
+67,"Council District 3, Gahanna, OH",Columbus,27.77,16.1067
+68,"Council District 4, Gahanna, OH",Columbus,2.8,13.6727
+69,"Council District 1, Reynoldsburg, OH",Columbus,65.5,18.7091
+70,"Council District 3, Reynoldsburg, OH",Columbus,40.09,16.0449
+71,"Columbus, OH Area",Columbus,47.26,17.8581
+72,"Council District 8, Denver, CO",Denver,46.17,15.6727
+73,"Council District 11, Denver, CO",Denver,51.01,16.699
+74,"Council District 9, Denver, CO",Denver,42.12,16.1989
+75,"Council District 3, Denver, CO",Denver,74.85,18.0252
+76,"Council District 2, Denver, CO",Denver,52.91,15.3813
+77,"Council District 7, Denver, CO",Denver,34.08,15.0794
+78,"Council District 10, Denver, CO",Denver,28.05,15.3323
+79,"Council District 6, Denver, CO",Denver,26.11,14.7204
+80,"Council District 5, Denver, CO",Denver,26.75,13.4926
+81,"Council District 4, Denver, CO",Denver,34.74,14.9871
+82,"Council District 1, Denver, CO",Denver,24.77,14.8048
+83,"Denver, CO",Denver,40.78,15.5
+84,"Council District 8, Indianapolis, IN",Indianapolis,83.58,20.1745
+85,"Council District 6, Indianapolis, IN",Indianapolis,61.86,17.0629
+86,"Council District 3, Indianapolis, IN",Indianapolis,33.8,15.1885
+87,"Council District 2, Indianapolis, IN",Indianapolis,38.18,15.0733
+88,"Council District 9, Indianapolis, IN",Indianapolis,89.92,20.669
+89,"Council District 1, Indianapolis, IN",Indianapolis,51.76,16.1418
+90,"Council District 7, Indianapolis, IN",Indianapolis,31.49,16.0723
+91,"Council District 5, Indianapolis, IN",Indianapolis,77.18,19.6208
+92,"Council District 4, Indianapolis, IN",Indianapolis,28.16,14.6458
+93,"Council District 21, Indianapolis, IN",Indianapolis,62.59,19.8791
+94,"Council District 11, Indianapolis, IN",Indianapolis,72.83,19.2958
+95,"Council District 22, Indianapolis, IN",Indianapolis,50.92,17.0524
+96,"Council District 12, Indianapolis, IN",Indianapolis,69.27,19.6479
+97,"Council District 13, Indianapolis, IN",Indianapolis,70.08,19.234
+98,"Council District 14, Indianapolis, IN",Indianapolis,65.48,18.1672
+99,"Council District 15, Indianapolis, IN",Indianapolis,83.38,20.3082
+100,"Council District 23, Indianapolis, IN",Indianapolis,70.61,19.2238
+101,"Council District 16, Indianapolis, IN",Indianapolis,67.89,18.2614
+102,"Council District 17, Indianapolis, IN",Indianapolis,78.75,20.1389
+103,"Council District 18, Indianapolis, IN",Indianapolis,72.74,20.1507
+104,"Council District 19, Indianapolis, IN",Indianapolis,84.62,21.1957
+105,"Council District 20, Indianapolis, IN",Indianapolis,56.44,18.0393
+106,"Council District 24, Indianapolis, IN",Indianapolis,44.26,16.9958
+107,"Council District 25, Indianapolis, IN",Indianapolis,33.27,15.7706
+108,"Indianapolis, IN",Indianapolis,62.7,18.2
+109,"Council District 10, Jacksonville, FL",Jacksonville,91.25,21.6494
+110,"Council District 11, Jacksonville, FL",Jacksonville,33.09,16.413
+111,"Council District 12, Jacksonville, FL",Jacksonville,58.29,19.3179
+112,"Council District 14, Jacksonville, FL",Jacksonville,62.0,19.6287
+113,"Council District 2, Jacksonville, FL",Jacksonville,36.49,17.2052
+114,"Council District 3, Jacksonville, FL",Jacksonville,29.62,17.0087
+115,"Council District 1, Jacksonville, FL",Jacksonville,70.56,20.4307
+116,"Council District 13, Jacksonville, FL",Jacksonville,31.86,16.6749
+117,"Council District 4, Jacksonville, FL",Jacksonville,58.28,18.6139
+118,"Council District 5, Jacksonville, FL",Jacksonville,49.51,17.4783
+119,"Council District 6, Jacksonville, FL",Jacksonville,29.81,16.3546
+120,"Council District 7, Jacksonville, FL",Jacksonville,63.97,19.9242
+121,"Council District 8, Jacksonville, FL",Jacksonville,57.76,19.7792
+122,"Council District 9, Jacksonville, FL",Jacksonville,82.32,21.5643
+123,"Jacksonville, FL",Jacksonville,57.57,18.8
+124,"Council District 21, Louisville, KY",Louisville,74.48,19.2132
+125,"Council District 22, Louisville, KY",Louisville,36.15,15.2278
+126,"Council District 23, Louisville, KY",Louisville,38.19,16.0778
+127,"Council District 24, Louisville, KY",Louisville,55.66,17.5135
+128,"Council District 25, Louisville, KY",Louisville,57.85,17.784
+129,"Council District 1, Louisville, KY",Louisville,83.99,19.6697
+130,"Council District 2, Louisville, KY",Louisville,72.21,17.811
+131,"Council District 3, Louisville, KY",Louisville,78.36,19.5207
+132,"Council District 4, Louisville, KY",Louisville,79.53,20.1314
+133,"Council District 5, Louisville, KY",Louisville,88.61,20.9132
+134,"Council District 6, Louisville, KY",Louisville,73.28,22.4983
+135,"Council District 7, Louisville, KY",Louisville,30.93,14.1108
+136,"Council District 8, Louisville, KY",Louisville,23.34,13.7779
+137,"Council District 9, Louisville, KY",Louisville,21.62,13.7186
+138,"Council District 10, Louisville, KY",Louisville,47.97,15.7894
+139,"Council District 11, Louisville, KY",Louisville,30.22,14.5192
+140,"Council District 12, Louisville, KY",Louisville,56.29,17.4342
+141,"Council District 13, Louisville, KY",Louisville,71.7,19.3758
+142,"Council District 14, Louisville, KY",Louisville,59.49,18.2267
+143,"Council District 15, Louisville, KY",Louisville,70.75,19.8532
+144,"Council District 16, Louisville, KY",Louisville,3.23,11.2157
+145,"Council District 17, Louisville, KY",Louisville,30.14,13.7824
+146,"Council District 18, Louisville, KY",Louisville,16.24,12.5506
+147,"Council District 19, Louisville, KY",Louisville,15.54,13.0228
+148,"Council District 20, Louisville, KY",Louisville,20.59,14.0679
+149,"Council District 26, Louisville, KY",Louisville,38.5,15.0132
+150,"Louisville, KY",Louisville,53.69,16.2
+151,"Council District 1, Miami, FL",Miami,94.74,15.7308
+152,"Council District 5, Miami, FL",Miami,93.95,18.5032
+153,"Council District 2, Miami, FL",Miami,32.55,13.0403
+154,"Council District 4, Miami, FL",Miami,70.78,13.2431
+155,"Council District 3, Miami, FL",Miami,93.62,15.3282
+156,"Miami, FL",Miami,77.86,15.0
+157,"Council District 3, Nashville, TN",Nashville,65.33,21.1504
+158,"Council District 13, Nashville, TN",Nashville,65.05,21.1753
+159,"Council District 24, Nashville, TN",Nashville,14.46,16.2037
+160,"Council District 14, Nashville, TN",Nashville,45.84,19.0471
+161,"Council District 15, Nashville, TN",Nashville,45.38,18.6118
+162,"Council District 16, Nashville, TN",Nashville,66.13,20.8047
+163,"Council District 17, Nashville, TN",Nashville,66.07,23.1416
+164,"Council District 19, Nashville, TN",Nashville,31.52,18.9224
+165,"Council District 1, Nashville, TN",Nashville,49.06,18.8736
+166,"Council District 7, Nashville, TN",Nashville,39.82,18.8915
+167,"Council District 10, Nashville, TN",Nashville,60.53,20.1197
+168,"Council District 31, Nashville, TN",Nashville,35.32,18.5535
+169,"Council District 32, Nashville, TN",Nashville,60.06,22.1301
+170,"Council District 33, Nashville, TN",Nashville,43.69,19.9571
+171,"Council District 11, Nashville, TN",Nashville,46.86,17.8063
+172,"Council District 2, Nashville, TN",Nashville,83.21,21.6817
+173,"Council District 21, Nashville, TN",Nashville,69.78,24.3146
+174,"Council District 23, Nashville, TN",Nashville,13.99,15.7995
+175,"Council District 25, Nashville, TN",Nashville,8.65,15.7033
+176,"Council District 26, Nashville, TN",Nashville,25.72,17.4607
+177,"Council District 28, Nashville, TN",Nashville,74.95,22.2744
+178,"Council District 4, Nashville, TN",Nashville,21.42,16.4341
+179,"Council District 34, Nashville, TN",Nashville,7.36,14.1566
+180,"Council District 35, Nashville, TN",Nashville,16.02,16.114
+181,"Council District 18, Nashville, TN",Nashville,31.13,21.3927
+182,"Council District 5, Nashville, TN",Nashville,62.65,21.3448
+183,"Council District 9, Nashville, TN",Nashville,78.23,21.7941
+184,"Council District 12, Nashville, TN",Nashville,40.06,18.4971
+185,"Council District 20, Nashville, TN",Nashville,40.31,19.6675
+186,"Council District 30, Nashville, TN",Nashville,78.87,22.3511
+187,"Council District 22, Nashville, TN",Nashville,26.27,16.8222
+188,"Council District 6, Nashville, TN",Nashville,34.48,19.5717
+189,"Council District 8, Nashville, TN",Nashville,56.96,21.6417
+190,"Council District 27, Nashville, TN",Nashville,67.85,21.158
+191,"Council District 29, Nashville, TN",Nashville,60.41,19.7907
+192,"Nashville, TN",Nashville,48.73,19.6
+193,"Council District 2, Orlando, FL",Orlando,72.87,16.926
+194,"Council District 6, Orlando, FL",Orlando,65.37,18.499
+195,"Council District 5, Orlando, FL",Orlando,78.29,19.8012
+196,"Council District 4, Orlando, FL",Orlando,48.07,16.7985
+197,"Council District 1, Orlando, FL",Orlando,38.71,15.3968
+198,"Council District 3, Orlando, FL",Orlando,42.79,16.7587
+199,"Orlando, FL",Orlando,56.65,17.3
+200,"Council District 4, Philadelphia, PA",Philadelphia,59.86,18.3001
+201,"Council District 6, Philadelphia, PA",Philadelphia,72.62,19.362
+202,"Council District 10, Philadelphia, PA",Philadelphia,48.2,16.4547
+203,"Council District 5, Philadelphia, PA",Philadelphia,65.45,20.6327
+204,"Council District 7, Philadelphia, PA",Philadelphia,91.28,22.0369
+205,"Council District 1, Philadelphia, PA",Philadelphia,44.36,16.5755
+206,"Council District 2, Philadelphia, PA",Philadelphia,54.31,17.4928
+207,"Council District 3, Philadelphia, PA",Philadelphia,75.28,21.583
+208,"Council District 8, Philadelphia, PA",Philadelphia,73.8,19.2663
+209,"Council District 9, Philadelphia, PA",Philadelphia,77.87,19.2304
+210,"Philadelphia, PA",Philadelphia,66.78,18.9
+211,"Council District 6, San Antonio, TX",San Antonio,57.25,17.0535
+212,"Council District 8, San Antonio, TX",San Antonio,46.48,16.8105
+213,"Council District 9, San Antonio, TX",San Antonio,31.22,14.4708
+214,"Council District 10, San Antonio, TX",San Antonio,43.98,16.1849
+215,"Council District 2, San Antonio, TX",San Antonio,82.98,19.2748
+216,"Council District 3, San Antonio, TX",San Antonio,85.19,17.936
+217,"Council District 4, San Antonio, TX",San Antonio,79.06,18.4611
+218,"Council District 5, San Antonio, TX",San Antonio,100.0,19.0683
+219,"Council District 7, San Antonio, TX",San Antonio,63.77,16.29
+220,"Council District 1, San Antonio, TX",San Antonio,74.98,17.0729
+221,"San Antonio, TX",San Antonio,68.25,17.2
+222,"Council District 2, San Francisco, CA",San Francisco,17.27,14.054
+223,"Council District 1, San Francisco, CA",San Francisco,28.27,13.8616
+224,"Council District 4, San Francisco, CA",San Francisco,35.52,13.0211
+225,"Council District 7, San Francisco, CA",San Francisco,27.33,13.3103
+226,"Council District 10, San Francisco, CA",San Francisco,56.86,16.176
+227,"Council District 6, San Francisco, CA",San Francisco,32.89,15.0442
+228,"Council District 3, San Francisco, CA",San Francisco,44.94,15.2037
+229,"Council District 8, San Francisco, CA",San Francisco,16.78,13.5163
+230,"Council District 11, San Francisco, CA",San Francisco,55.55,13.9752
+231,"Council District 9, San Francisco, CA",San Francisco,43.82,15.151
+232,"Council District 5, San Francisco, CA",San Francisco,52.47,16.4236
+233,"San Francisco, CA",San Francisco,37.35,14.5
+234,"Council District 4, Tampa, FL",Tampa,26.0,14.9862
+235,"Council District 5, Tampa, FL",Tampa,79.82,20.4149
+236,"Council District 6, Tampa, FL",Tampa,51.79,15.8782
+237,"Council District 7, Tampa, FL",Tampa,49.08,18.1325
+238,"Tampa, FL",Tampa,51.62,17.4
