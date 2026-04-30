@@ -436,3 +436,94 @@ open dashboard/mental-health-risk-dashboard.html
 | **Connor Kurrack** | EDA, clustering analysis, K-means district profiling, data quality audit |
 
 **Course:** CAP 4922 — Data Science Capstone · University of North Florida
+
+---
+
+## 📖 Dashboard Tutorial & Walkthrough
+
+**File:** `dashboard/mental-health-risk-dashboard.html`  
+**Requirements:** Any modern browser (Chrome, Firefox, Edge). No server or installation required.  
+**To launch:** Double-click the file, or run `open dashboard/mental-health-risk-dashboard.html` from the repo root.
+
+---
+
+### Interface Overview
+
+The dashboard is divided into three panels:
+
+- **Left panel** — display controls (color mode, risk filter, city toggles)
+- **Center panel** — interactive U.S. county map with zoom/pan
+- **Right panel** — tabbed data explorer (Stats, Rankings, Districts, Upload)
+
+---
+
+### Step 1 — Reading the Map
+
+Counties belonging to the 13 study cities are colored; all others appear in muted gray. By default, counties are shaded by **MH Risk Index** on a green → yellow → red gradient (0 = lowest risk, 100 = highest). A floating card in the upper-left shows live averages for the visible selection.
+
+**Hover** over any colored county to see a tooltip with the city name, Risk Index, Poor MH %, district count, and cluster tier.  
+**Click** a county to pin the tooltip in place. Click again to release it.
+
+---
+
+### Step 2 — Switching Color Modes
+
+Use the **Color By** buttons in the left panel to switch between three views:
+
+| Mode | What it shows |
+|------|--------------|
+| **MH Risk Index** | PCA-weighted composite risk score (0–100) |
+| **Cluster Assignment** | K-means cluster tier (Extreme Risk → Low Risk) |
+| **Poor Mental Health %** | Raw CDC PLACES outcome variable |
+
+Cluster mode activates a color-coded legend below. Click any cluster chip in the legend to toggle that tier on or off.
+
+---
+
+### Step 3 — Filtering the View
+
+**Risk Range sliders** (left panel, "Risk Filter") let you isolate a band of the index — for example, drag the left slider to 60 to highlight only high-risk counties.
+
+**City checkboxes** below the sliders toggle individual cities. At least one city must remain visible at all times.
+
+Both filters update the map and all right-panel statistics in real time.
+
+---
+
+### Step 4 — Exploring the Right Panel
+
+Switch between tabs using the tab bar at the top of the right panel.
+
+- **Stats** — aggregate summary cards, Ridge model performance metrics, cluster distribution bars, and a predictor coefficient chart showing which features drive risk up (red ↑) or down (green ↓).
+- **Rankings** — cities ranked by composite index from highest to lowest risk, with a mini bar for quick visual comparison.
+- **Districts** — a searchable, scrollable list of all individual council districts. Type a city name or district number in the search box to filter. Each row shows the district label, index score, and cluster badge.
+
+---
+
+### Step 5 — Uploading Custom Data
+
+The dashboard accepts a CSV upload to replace the default dataset with your own district-level scores.
+
+1. Click **⊕ Upload CSV** in the header (or drag a file onto the Upload tab drop zone).
+2. Ensure your file includes these columns:
+3. A green confirmation banner will appear on success. The map, rankings, and stats panels will update immediately to reflect your data.
+4. Click **↺ Reset** in the header at any time to restore the original 13-city dataset.
+
+---
+
+### Step 6 — Exporting Results
+
+Click **⬇ Export** in the header to download a CSV of the currently visible city-level data, including composite index, Poor MH %, cluster assignment, and district count. The file is named `mh_risk_13cities.csv`.
+
+---
+
+### Interpreting Results
+
+| Index Range | Cluster | Interpretation |
+|-------------|---------|----------------|
+| 75 – 100 | 🔴 Extreme Risk | High poverty, low education, high uninsured rates; priority intervention target |
+| 50 – 74 | 🟠 Moderate-High | Elevated structural stress; monitor closely |
+| 25 – 49 | 🟡 Moderate | Mixed conditions; some protective factors present |
+| 0 – 24 | 🟢 Low Risk | Higher education attainment, lower poverty; strongest mental health outcomes |
+
+> **Important:** All findings are district-level aggregates. The index reflects structural risk conditions — it does not diagnose or predict outcomes for any individual resident. No causal inference should be drawn from this cross-sectional data.
