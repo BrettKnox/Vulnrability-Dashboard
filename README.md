@@ -200,7 +200,7 @@ K-Means clustering was applied to Z-score normalized features to identify recurr
 
 ---
 
-### 🧠 Cluster Structure (k = 4)
+###  Cluster Structure (k = 4)
 
 ![Clusters](https://img.shields.io/badge/Clusters-4-blueviolet)
 
@@ -217,7 +217,7 @@ The four-cluster solution reveals a **continuous socioeconomic gradient**:
 
 ---
 
-### 🔍 Key Drivers of Clustering
+###  Key Drivers of Clustering
 
 ![Drivers](https://img.shields.io/badge/Drivers-Socioeconomic-critical)
 
@@ -240,7 +240,7 @@ Clusters are primarily defined by:
 
 ---
 
-### 🔥 Key Insight
+###  Key Insight
 
 > Mental health disparities are driven primarily by **structural socioeconomic conditions**, not healthcare availability.
 
@@ -249,7 +249,7 @@ Clusters are primarily defined by:
 
 ---
 
-### ⚠️ DBSCAN Comparison
+###  DBSCAN Comparison
 
 ![Alt Model](https://img.shields.io/badge/Comparison-DBSCAN-lightgrey)
 
@@ -265,7 +265,7 @@ DBSCAN was tested to identify density-based clusters and outliers.
 
 ---
 
-### 📍 Localized Insight: Jacksonville Case Study
+###  Localized Insight: Jacksonville Case Study
 
 ![Case Study](https://img.shields.io/badge/Case_Study-Jacksonville_FL-blue)
 
@@ -279,11 +279,11 @@ Cluster assignments reveal **significant intra-city variation**:
 - 🔴 Districts 9 & 10 → highest risk  
 - 🟢 Districts 2, 3, 6 → lower risk  
 
-> 📌 **Key takeaway:** City-level averages obscure important local disparities
+>  **Key takeaway:** City-level averages obscure important local disparities
 
 ---
 
-### ✅ Summary
+###  Summary
 
 ![Status](https://img.shields.io/badge/Status-Validated-success)
 
